@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account - SunCraft Panels</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header small">
+    <div class="brand">SunCraft Panels</div>
+    <nav><a href="index.html">Home</a></nav>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>My Account</h2>
+      <div id="accountInfo"></div>
+
+      <h3>Change password</h3>
+      <form id="passForm">
+        <label for="newpass">New password</label>
+        <input id="newpass" type="password" minlength="4" required>
+        <button type="submit" class="btn">Update Password</button>
+      </form>
+
+      <button id="logout" class="btn btn-danger">Logout</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">© 2025 SunCraft Panels</footer>
+
+  <script src="script.js"></script>
+  <script>
+    const current = JSON.parse(localStorage.getItem('currentUser'));
+    const accountInfo = document.getElementById('accountInfo');
+    if(!current){ alert('Please login'); window.location.href = 'login.html'; }
+    accountInfo.innerHTML = `<p><strong>Name:</strong> ${current.name}</p><p><strong>Email:</strong> ${current.email}</p>`;
+
+    document.getElementById('passForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const np = document.getElementById('newpass').value;
+      if(np.length < 4){ alert('Password too short'); return; }
+      const users = JSON.parse(localStorage.getItem('users')||'[]');
+      for(let u of users){ if(u.email === current.email){ u.password = np; break; } }
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Password updated');
+      document.getElementById('newpass').value = '';
+    });
+
+    document.getElementById('logout').addEventListener('click', function(){
+      localStorage.removeItem('currentUser');
+      alert('Logged out');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

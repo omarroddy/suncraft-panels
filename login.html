@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - SunCraft Panels</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header small">
+    <div class="brand">SunCraft Panels</div>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="lemail">Email or Name</label>
+        <input id="lemail" name="lemail" type="text" required>
+
+        <label for="lpassword">Password</label>
+        <input id="lpassword" name="lpassword" type="password" required>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+      <p>New user? <a href="signup.html">Sign up here</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 SunCraft Panels</div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const id = document.getElementById('lemail').value.trim().toLowerCase();
+      const password = document.getElementById('lpassword').value;
+      const users = JSON.parse(localStorage.getItem('users')||'[]');
+      const user = users.find(u => (u.email === id || u.name.toLowerCase() === id) && u.password === password);
+      if(!user){ alert('Invalid credentials.'); return; }
+      localStorage.setItem('currentUser', JSON.stringify({ name: user.name, email: user.email }));
+      alert('Welcome back, ' + user.name + '!');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

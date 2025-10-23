@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SunCraft Panels</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">SunCraft Panels</div>
+    <nav class="nav">
+      <button id="menuToggle" class="hamburger" aria-label="Toggle menu">☰</button>
+      <ul id="nav-links" class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><button id="cartBtn" class="link-btn">🛒 Cart <span id="cartCount" class="badge" hidden>0</span></button></li>
+        <li><a href="login.html" id="loginLink" class="link-btn">Login</a></li>
+        <li><a href="signup.html" id="signupLink" class="link-btn">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-inner">
+        <h1>Clean, Reliable Solar Solutions</h1>
+        <p>SunCraft Panels — sustainable power for homes and businesses.</p>
+        <a href="#products" class="btn">Shop Products</a>
+      </div>
+    </section>
+
+    <section id="products" class="products-section">
+      <div class="controls">
+        <input id="searchInput" type="search" placeholder="Search products..." aria-label="Search products">
+        <div class="filters">
+          <button class="filter-btn active" data-cat="all">All</button>
+          <button class="filter-btn" data-cat="panels">Panels</button>
+          <button class="filter-btn" data-cat="lamps">Lamps</button>
+          <button class="filter-btn" data-cat="batteries">Batteries</button>
+          <button class="filter-btn" data-cat="accessories">Accessories</button>
+        </div>
+      </div>
+
+      <div id="productList" class="product-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="about" class="about">
+      <h2>About SunCraft Panels</h2>
+      <p>SunCraft Panels provides affordable renewable energy products — from solar panels and lights to full home systems. We bring sustainable solutions to homes and businesses.</p>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
+      <p><strong>Email:</strong> solarcraftpanels1@gmail.com</p>
+      <p><strong>Phone:</strong> +233-550-9843-92</p>
+      <form id="contactForm">
+        <label for="cname">Name</label>
+        <input id="cname" name="name" type="text" required>
+
+        <label for="cemail">Email</label>
+        <input id="cemail" name="email" type="email" required>
+
+        <label for="cmessage">Message</label>
+        <textarea id="cmessage" name="message" rows="4" required></textarea>
+
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 SunCraft Panels</div>
+  </footer>
+
+  <!-- Cart panel -->
+  <aside id="cart" class="cart-panel" aria-hidden="true">
+    <h3>Your Cart</h3>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-summary">
+      <div>Total: <span id="cartTotal">₵ 0</span></div>
+      <button id="checkoutBtn" class="btn">Checkout</button>
+      <button id="clearCartBtn" class="btn btn-danger">Clear Cart</button>
+    </div>
+  </aside>
+
+  <!-- Checkout modal -->
+  <div id="checkoutModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" id="closeCheckout" aria-label="Close">&times;</button>
+      <h3>Complete Payment</h3>
+      <p>Enter your MoMo number to complete payment</p>
+      <input id="momo" type="tel" placeholder="e.g. +233550..." inputmode="tel">
+      <button id="confirmPay" class="btn">Pay Now</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
