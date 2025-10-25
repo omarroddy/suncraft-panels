@@ -1,79 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SunCraft Panels</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="SunCraft Panels - Premium solar energy solutions for homes and businesses. High-quality solar panels, batteries, and accessories at competitive prices.">
+  <meta name="theme-color" content="#007bff">
+  
+  <title>SunCraft Panels | Premium Solar Energy Solutions</title>
+  
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
+  
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
+  
+  <!-- Preload hero image -->
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1600&q=80">
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">SunCraft Panels</div>
-    <nav class="nav">
-      <button id="menuToggle" class="hamburger" aria-label="Toggle menu">☰</button>
-      <ul id="nav-links" class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><button id="cartBtn" class="link-btn">🛒 Cart <span id="cartCount" class="badge" hidden>0</span></button></li>
-        <li><a href="login.html" id="loginLink" class="link-btn">Login</a></li>
-        <li><a href="signup.html" id="signupLink" class="link-btn">Sign Up</a></li>
-      </ul>
-    </nav>
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="brand" aria-label="SunCraft Panels Home">
+          <span aria-hidden="true">☀️</span> SunCraft Panels
+        </a>
+        
+        <button id="menuToggle" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+        
+        <nav class="nav" role="navigation" aria-label="Main">
+          <ul id="nav-links" class="nav-links">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#products" class="nav-link">Products</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+            <li class="nav-actions">
+              <button id="cartBtn" class="link-btn" aria-label="View shopping cart">
+                <span aria-hidden="true">🛒</span> Cart 
+                <span id="cartCount" class="badge" aria-live="polite" hidden>0</span>
+              </button>
+              <a href="login.html" id="loginLink" class="link-btn">Login</a>
+              <a href="signup.html" id="signupLink" class="btn btn-outline">Sign Up</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </header>
 
   <main>
-    <section id="home" class="hero">
-      <div class="hero-inner">
-        <h1>Clean, Reliable Solar Solutions</h1>
-        <p>SunCraft Panels — sustainable power for homes and businesses.</p>
-        <a href="#products" class="btn">Shop Products</a>
-      </div>
-    </section>
-
-    <section id="products" class="products-section">
-      <div class="controls">
-        <input id="searchInput" type="search" placeholder="Search products..." aria-label="Search products">
-        <div class="filters">
-          <button class="filter-btn active" data-cat="all">All</button>
-          <button class="filter-btn" data-cat="panels">Panels</button>
-          <button class="filter-btn" data-cat="lamps">Lamps</button>
-          <button class="filter-btn" data-cat="batteries">Batteries</button>
-          <button class="filter-btn" data-cat="accessories">Accessories</button>
+    <section id="home" class="hero" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="hero-content">
+          <h1 id="hero-heading">Clean, Reliable Solar Solutions</h1>
+          <p class="lead">Harness the power of the sun with SunCraft Panels — sustainable energy solutions for homes and businesses.</p>
+          <div class="hero-actions">
+            <a href="#products" class="btn btn-lg">Shop Products</a>
+            <a href="#contact" class="btn btn-outline btn-lg">Get a Quote</a>
+          </div>
         </div>
       </div>
-
-      <div id="productList" class="product-grid" aria-live="polite"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
     </section>
 
-    <section id="about" class="about">
-      <h2>About SunCraft Panels</h2>
-      <p>SunCraft Panels provides affordable renewable energy products — from solar panels and lights to full home systems. We bring sustainable solutions to homes and businesses.</p>
+    <section id="products" class="products-section" aria-labelledby="products-heading">
+      <div class="container">
+        <h2 id="products-heading" class="section-title">Our Products</h2>
+        <p class="section-subtitle">High-quality solar solutions for every need</p>
+        
+        <div class="controls">
+          <div class="search-container">
+            <label for="searchInput" class="visually-hidden">Search products</label>
+            <div class="search-input-wrapper">
+              <input 
+                id="searchInput" 
+                type="search" 
+                placeholder="Search products..." 
+                aria-label="Search products"
+                autocomplete="off"
+              >
+              <span class="search-icon" aria-hidden="true">🔍</span>
+            </div>
+          </div>
+          
+          <div class="filters-container">
+            <span class="filters-label">Filter by:</span>
+            <div class="filters" role="group" aria-label="Product categories">
+              <button class="filter-btn active" data-cat="all" aria-pressed="true">All</button>
+              <button class="filter-btn" data-cat="panels" aria-pressed="false">Panels</button>
+              <button class="filter-btn" data-cat="lamps" aria-pressed="false">Lamps</button>
+              <button class="filter-btn" data-cat="batteries" aria-pressed="false">Batteries</button>
+              <button class="filter-btn" data-cat="accessories" aria-pressed="false">Accessories</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="productList" class="product-grid" role="list" aria-label="Product list"></div>
+        
+        <div id="loadingIndicator" class="loading-indicator" aria-live="polite" aria-busy="false" hidden>
+          <div class="spinner" aria-hidden="true"></div>
+          <span>Loading products...</span>
+        </div>
+        
+        <div id="noResults" class="no-results" hidden>
+          <p>No products found. Try adjusting your search or filters.</p>
+          <button class="btn btn-outline" id="clearFilters">Clear all filters</button>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="contact">
-      <h2>Contact</h2>
-      <p><strong>Email:</strong> solarcraftpanels1@gmail.com</p>
-      <p><strong>Phone:</strong> +233-550-9843-92</p>
-      <form id="contactForm">
-        <label for="cname">Name</label>
-        <input id="cname" name="name" type="text" required>
-
-        <label for="cemail">Email</label>
-        <input id="cemail" name="email" type="email" required>
-
-        <label for="cmessage">Message</label>
-        <textarea id="cmessage" name="message" rows="4" required></textarea>
-
-        <button type="submit" class="btn">Send Message</button>
-      </form>
+    <section id="about" class="about-section" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-content">
+            <h2 id="about-heading" class="section-title">About SunCraft Panels</h2>
+            <p>At SunCraft Panels, we're committed to providing affordable, high-quality renewable energy solutions. Since our founding, we've been on a mission to make sustainable energy accessible to everyone.</p>
+            <p>Our products range from individual solar panels and lighting solutions to complete home energy systems. We carefully select each component for reliability, efficiency, and value.</p>
+            <div class="features">
+              <div class="feature">
+                <span class="feature-icon" aria-hidden="true">☀️</span>
+                <h3>Eco-Friendly</h3>
+                <p>Reduce your carbon footprint with clean, renewable energy.</p>
+              </div>
+              <div class="feature">
+                <span class="feature-icon" aria-hidden="true">💡</span>
+                <h3>Cost-Effective</h3>
+                <p>Save money on energy bills with our efficient solutions.</p>
+              </div>
+              <div class="feature">
+                <span class="feature-icon" aria-hidden="true">🛡️</span>
+                <h3>Reliable</h3>
+                <p>Quality products backed by our satisfaction guarantee.</p>
+              </div>
+            </div>
+          </div>
+          <div class="about-image">
+            <img 
+              src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80" 
+              alt="Solar panels installation"
+              loading="lazy"
+              width="600"
+              height="400"
+            >
+          </div>
+        </div>
+      </div>
     </section>
 
+    <section id="contact" class="contact-section" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h2 id="contact-heading" class="section-title">Get In Touch</h2>
+            <p>Have questions about our products or need help choosing the right solar solution? Our team is here to help.</p>
+            
+            <div class="contact-methods">
+              <div class="contact-method">
+                <h3>Email Us</h3>
+                <p><a href="mailto:solarcraftpanels1@gmail.com" class="contact-link">solarcraftpanels1@gmail.com</a></p>
+              </div>
+              
+              <div class="contact-method">
+                <h3>Call Us</h3>
+                <p><a href="tel:+233550984392" class="contact-link">+233 55 098 4392</a></p>
+              </div>
+              
+              <div class="contact-method">
+                <h3>Business Hours</h3>
+                <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
+                <p>Saturday: 9:00 AM - 2:00 PM</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-form-container">
+            <form id="contactForm" class="contact-form" novalidate>
+              <div class="form-group">
+                <label for="cname">Full Name <span class="required">*</span></label>
+                <input 
+                  id="cname" 
+                  name="name" 
+                  type="text" 
+                  required
+                  aria-required="true"
+                  minlength="2"
+                  placeholder="Your name"
+                >
+                <div class="error-message" id="nameError"></div>
+              </div>
+              
+              <div class="form-group">
+                <label for="cemail">Email Address <span class="required">*</span></label>
+                <input 
+                  id="cemail" 
+                  name="email" 
+                  type="email" 
+                  required
+                  aria-required="true"
+                  placeholder="your.email@example.com"
+                >
+                <div class="error-message" id="emailError"></div>
+              </div>
+              
+              <div class="form-group">
+                <label for="cphone">Phone Number</label>
+                <input 
+                  id="cphone" 
+                  name="phone" 
+                  type="tel" 
+                  placeholder="+233 XX XXX XXXX"
+                  pattern="[0-9+\-\s()]{10,20}"
+                >
+                <div class="hint">Include country code</div>
+              </div>
+              
+              <div class="form-group">
+                <label for="cmessage">Your Message <span class="required">*</span></label>
+                <textarea 
+                  id="cmessage" 
+                  name="message" 
+                  rows="5" 
+                  required
+                  aria-required="true"
+                  minlength="10"
+                  placeholder="How can we help you?"
+                ></textarea>
+                <div class="error-message" id="messageError"></div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <span class="btn-text">Send Message</span>
+                  <span class="btn-icon" aria-hidden="true">→</span>
+                </button>
+                <div id="formSuccess" class="success-message" hidden>
+                  Message sent successfully! We'll get back to you soon.
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div>© 2025 SunCraft Panels</div>
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="brand">
+            <span aria-hidden="true">☀️</span> SunCraft Panels
+          </div>
+          <p class="tagline">Powering a sustainable future with clean energy solutions.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">
+              <span aria-hidden="true">📱</span>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <span aria-hidden="true">💬</span>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <span aria-hidden="true">📸</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-section">
+            <h3>Products</h3>
+            <ul>
+              <li><a href="#" class="footer-link">Solar Panels</a></li>
+              <li><a href="#" class="footer-link">Solar Batteries</a></li>
+              <li><a href="#" class="footer-link">Solar Lights</a></li>
+              <li><a href="#" class="footer-link">Accessories</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="#about" class="footer-link">About Us</a></li>
+              <li><a href="#" class="footer-link">Our Team</a></li>
+              <li><a href="#" class="footer-link">Testimonials</a></li>
+              <li><a href="#" class="footer-link">Careers</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="#contact" class="footer-link">Contact Us</a></li>
+              <li><a href="#" class="footer-link">FAQs</a></li>
+              <li><a href="#" class="footer-link">Shipping & Returns</a></li>
+              <li><a href="#" class="footer-link">Warranty</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 SunCraft Panels. All rights reserved.</p>
+        <div class="legal-links">
+          <a href="#" class="legal-link">Privacy Policy</a>
+          <span class="divider">|</span>
+          <a href="#" class="legal-link">Terms of Service</a>
+          <span class="divider">|</span>
+          <a href="#" class="legal-link">Sitemap</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <!-- Cart panel -->

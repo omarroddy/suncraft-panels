@@ -1,16 +1,70 @@
 // Main client-side JS for SunCraft Panels (responsive + localStorage auth + cart)
 (() => {
-  // Product catalog (categories included)
+  // Product catalog with optimized image URLs from Picsum Photos
   const products = [
-    { id:1, name:"AI Solar Max 400W Panel", price:2800, category:"panels", img:"https://images.unsplash.com/photo-1581092334531-8f1eacfbb93b?auto=format&fit=crop&w=900&q=80" },
-    { id:2, name:"SmartPanel Ultra 600W", price:4500, category:"panels", img:"https://images.unsplash.com/photo-1617196034796-2c8e6e3f6932?auto=format&fit=crop&w=900&q=80" },
-    { id:3, name:"EcoLite 300W Compact", price:1950, category:"panels", img:"https://images.unsplash.com/photo-1616442487577-6618d7f9e5a2?auto=format&fit=crop&w=900&q=80" },
-    { id:4, name:"Solar Lantern 50W", price:320, category:"lamps", img:"https://images.unsplash.com/photo-1603565816060-eedb4e3f49db?auto=format&fit=crop&w=900&q=80" },
-    { id:5, name:"Solar Flood Light 200W", price:780, category:"lamps", img:"https://images.unsplash.com/photo-1620787061748-70a88af2e75d?auto=format&fit=crop&w=900&q=80" },
-    { id:6, name:"Deep Cycle Battery 12V/200Ah", price:1500, category:"batteries", img:"https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=900&q=80" },
-    { id:7, name:"Solar Charge Controller 60A", price:620, category:"accessories", img:"https://images.unsplash.com/photo-1615540492593-4d5ef0d93a30?auto=format&fit=crop&w=900&q=80" },
-    { id:8, name:"Inverter Pro 2.5kVA", price:2500, category:"accessories", img:"https://images.unsplash.com/photo-1603533813363-dbd5d3e8ad1a?auto=format&fit=crop&w=900&q=80" },
-    { id:9, name:"Complete Solar Home Kit", price:8900, category:"panels", img:"https://images.unsplash.com/photo-1603988363607-17798d56e7b4?auto=format&fit=crop&w=900&q=80" }
+    { 
+      id: 1, 
+      name: "AI Solar Max 400W Panel", 
+      price: 2800, 
+      category: "panels", 
+      img: "https://picsum.photos/id/10/800/600" 
+    },
+    { 
+      id: 2, 
+      name: "SmartPanel Ultra 600W", 
+      price: 4500, 
+      category: "panels", 
+      img: "https://picsum.photos/id/11/800/600" 
+    },
+    { 
+      id: 3, 
+      name: "EcoLite 300W Compact", 
+      price: 1950, 
+      category: "panels", 
+      img: "https://picsum.photos/id/12/800/600" 
+    },
+    { 
+      id: 4, 
+      name: "Solar Lantern 50W", 
+      price: 320, 
+      category: "lamps", 
+      img: "https://picsum.photos/id/13/800/600" 
+    },
+    { 
+      id: 5, 
+      name: "Solar Flood Light 200W", 
+      price: 780, 
+      category: "lamps", 
+      img: "https://picsum.photos/id/14/800/600" 
+    },
+    { 
+      id: 6, 
+      name: "Deep Cycle Battery 12V/200Ah", 
+      price: 1500, 
+      category: "batteries", 
+      img: "https://picsum.photos/id/15/800/600" 
+    },
+    { 
+      id: 7, 
+      name: "Solar Charge Controller 60A", 
+      price: 620, 
+      category: "accessories", 
+      img: "https://picsum.photos/id/16/800/600" 
+    },
+    { 
+      id: 8, 
+      name: "Inverter Pro 2.5kVA", 
+      price: 2500, 
+      category: "accessories", 
+      img: "https://picsum.photos/id/17/800/600" 
+    },
+    { 
+      id: 9, 
+      name: "Complete Solar Home Kit", 
+      price: 8900, 
+      category: "panels", 
+      img: "https://picsum.photos/id/18/800/600" 
+    }
   ];
 
   // DOM refs
@@ -36,23 +90,18 @@
   function fmt(v){ return '₵ ' + v.toString(); }
 
   // Render products
-  function renderProducts(list){
+  function renderProducts(list) {
     productList.innerHTML = '';
-    list.forEach((p)=>{
+    list.forEach((p) => {
       const card = document.createElement('div');
       card.className = 'product-card';
-      const inner = `
-        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/900x600?text=Image+not+available'">
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
         <div class="card-body">
-          <div>
-            <h4>${p.name}</h4>
-            <div class="price">${fmt(p.price)}</div>
-          </div>
-          <div>
-            <button class="btn" data-add="${p.id}">Add to Cart</button>
-          </div>
+          <h4>${p.name}</h4>
+          <span class="price">${fmt(p.price)}</span>
+          <button class="btn" data-add="${p.id}">Add to Cart</button>
         </div>`;
-      card.innerHTML = inner;
       productList.appendChild(card);
     });
   }
