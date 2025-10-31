@@ -1,57 +1,78 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Account - SunCraft Panels</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Account - SunCraft Panels</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header small">
-    <div class="brand">SunCraft Panels</div>
-    <nav><a href="index.html">Home</a></nav>
+  <header>
+    <h1>SunCraft Panels</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="contact.html">Contact</a>
+      <span id="userNav"></span>
+    </nav>
   </header>
 
-  <main>
-    <section class="form-section">
-      <h2>My Account</h2>
-      <div id="accountInfo"></div>
+  <section class="form-section">
+    <h2>My Account</h2>
+    <div id="account-info">
+      <p><strong>Name:</strong> <span id="acc-name"></span></p>
+      <p><strong>Email:</strong> <span id="acc-email"></span></p>
 
-      <h3>Change password</h3>
-      <form id="passForm">
-        <label for="newpass">New password</label>
-        <input id="newpass" type="password" minlength="4" required>
-        <button type="submit" class="btn">Update Password</button>
+      <h3>Change Password</h3>
+      <form id="updateForm">
+        <label>New Password</label>
+        <input type="password" id="new-password" required />
+        <button type="submit">Update Password</button>
       </form>
+      <button id="logoutBtn" style="background:red; margin-top:20px;">Logout</button>
+    </div>
+  </section>
 
-      <button id="logout" class="btn btn-danger">Logout</button>
-    </section>
-  </main>
+  <footer>
+    <p>© 2025 SunCraft Panels</p>
+  </footer>
 
-  <footer class="site-footer">© 2025 SunCraft Panels</footer>
-
-  <script src="script.js"></script>
   <script>
-    const current = JSON.parse(localStorage.getItem('currentUser'));
-    const accountInfo = document.getElementById('accountInfo');
-    if(!current){ alert('Please login'); window.location.href = 'login.html'; }
-    accountInfo.innerHTML = `<p><strong>Name:</strong> ${current.name}</p><p><strong>Email:</strong> ${current.email}</p>`;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const username = localStorage.getItem("username");
+    const accName = document.getElementById("acc-name");
+    const accEmail = document.getElementById("acc-email");
+    const userNav = document.getElementById("userNav");
 
-    document.getElementById('passForm').addEventListener('submit', function(e){
+    // Redirect if not logged in
+    if (!username || !user) {
+      alert("You must log in to view your account.");
+      window.location.href = "login.html";
+    } else {
+      accName.textContent = user.name;
+      accEmail.textContent = user.email;
+      userNav.innerHTML = `<a href="account.html">${user.name}</a>`;
+    }
+
+    // Update password
+    document.getElementById("updateForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      const np = document.getElementById('newpass').value;
-      if(np.length < 4){ alert('Password too short'); return; }
-      const users = JSON.parse(localStorage.getItem('users')||'[]');
-      for(let u of users){ if(u.email === current.email){ u.password = np; break; } }
-      localStorage.setItem('users', JSON.stringify(users));
-      alert('Password updated');
-      document.getElementById('newpass').value = '';
+      const newPass = document.getElementById("new-password").value.trim();
+      if (newPass.length < 4) {
+        alert("Password must be at least 4 characters long.");
+        return;
+      }
+      user.password = newPass;
+      localStorage.setItem("user", JSON.stringify(user));
+      alert("Password updated successfully!");
+      document.getElementById("new-password").value = "";
     });
 
-    document.getElementById('logout').addEventListener('click', function(){
-      localStorage.removeItem('currentUser');
-      alert('Logged out');
-      window.location.href = 'index.html';
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("username");
+      alert("You’ve been logged out.");
+      window.location.href = "index.html";
     });
   </script>
 </body>

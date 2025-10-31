@@ -1,48 +1,60 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - SunCraft Panels</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header small">
-    <div class="brand">SunCraft Panels</div>
+  <header>
+    <h1>SunCraft Panels</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="products.html">Products</a>
+      <a href="contact.html">Contact</a>
+    </nav>
   </header>
 
-  <main>
-    <section class="form-section">
-      <h2>Login</h2>
-      <form id="loginForm">
-        <label for="lemail">Email or Name</label>
-        <input id="lemail" name="lemail" type="text" required>
+  <section class="form-section">
+    <h2>Login to Your Account</h2>
+    <form id="login-form">
+      <label>Email</label>
+      <input type="email" id="login-email" required />
 
-        <label for="lpassword">Password</label>
-        <input id="lpassword" name="lpassword" type="password" required>
+      <label>Password</label>
+      <input type="password" id="login-password" required />
 
-        <button type="submit" class="btn">Login</button>
-      </form>
-      <p>New user? <a href="signup.html">Sign up here</a></p>
-    </section>
-  </main>
+      <button type="submit">Login</button>
+      <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+    </form>
+  </section>
 
-  <footer class="site-footer">
-    <div>© 2025 SunCraft Panels</div>
+  <footer>
+    <p>© 2025 SunCraft Panels</p>
   </footer>
 
   <script src="script.js"></script>
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e){
+    document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      const id = document.getElementById('lemail').value.trim().toLowerCase();
-      const password = document.getElementById('lpassword').value;
-      const users = JSON.parse(localStorage.getItem('users')||'[]');
-      const user = users.find(u => (u.email === id || u.name.toLowerCase() === id) && u.password === password);
-      if(!user){ alert('Invalid credentials.'); return; }
-      localStorage.setItem('currentUser', JSON.stringify({ name: user.name, email: user.email }));
-      alert('Welcome back, ' + user.name + '!');
-      window.location.href = 'index.html';
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (!storedUser) {
+        alert("No account found. Please sign up first.");
+        return;
+      }
+
+      if (email === storedUser.email && password === storedUser.password) {
+        localStorage.setItem("username", storedUser.name);
+        alert("Welcome back, " + storedUser.name + "!");
+        window.location.href = "index.html";
+      } else {
+        alert("Incorrect email or password.");
+      }
     });
   </script>
 </body>
