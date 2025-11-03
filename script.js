@@ -41,7 +41,7 @@
     { 
       id: 6, 
       name: "Deep Cycle Battery 12V/200Ah", 
-      price: , 109.99
+      price:  109.99,
       category: "batteries", 
       img: "fig.11.jpg" 
     },
@@ -235,4 +235,3 @@
   updateCartUI();
 
 })();
-
