@@ -1,236 +1,165 @@
-// Main client-side JS for SunCraft Panels (responsive + localStorage auth + cart)
-(() => {
-  // Product catalog with optimized image URLs from Picsum Photos
+<script>
+  // --- Product Data ---
   const products = [
-    { 
-      id: 1, 
-      name: "AI Solar Max 400W Panel", 
-      price: 2800, 
-      category: "panels", 
-      img: "https://picsum.photos/id/10/800/600" 
-    },
-    { 
-      id: 2, 
-      name: "SmartPanel Ultra 600W", 
-      price: 4500, 
-      category: "panels", 
-      img: "https://picsum.photos/id/11/800/600" 
-    },
-    { 
-      id: 3, 
-      name: "EcoLite 300W Compact", 
-      price: 1950, 
-      category: "panels", 
-      img: "https://picsum.photos/id/12/800/600" 
-    },
-    { 
-      id: 4, 
-      name: "Solar Lantern 50W", 
-      price: 320, 
-      category: "lamps", 
-      img: "https://picsum.photos/id/13/800/600" 
-    },
-    { 
-      id: 5, 
-      name: "Solar Flood Light 200W", 
-      price: 780, 
-      category: "lamps", 
-      img: "https://picsum.photos/id/14/800/600" 
-    },
-    { 
-      id: 6, 
-      name: "Deep Cycle Battery 12V/200Ah", 
-      price: 1500, 
-      category: "batteries", 
-      img: "https://picsum.photos/id/15/800/600" 
-    },
-    { 
-      id: 7, 
-      name: "Solar Charge Controller 60A", 
-      price: 620, 
-      category: "accessories", 
-      img: "https://picsum.photos/id/16/800/600" 
-    },
-    { 
-      id: 8, 
-      name: "Inverter Pro 2.5kVA", 
-      price: 2500, 
-      category: "accessories", 
-      img: "https://picsum.photos/id/17/800/600" 
-    },
-    { 
-      id: 9, 
-      name: "Complete Solar Home Kit", 
-      price: 8900, 
-      category: "panels", 
-      img: "https://picsum.photos/id/18/800/600" 
-    }
+    { name: "AI Solar Max 400W", price: 2800, img: "https://images.unsplash.com/photo-1584270354949-1b8a7a212d5d?auto=format&fit=crop&w=800&q=80" },
+    { name: "SmartPanel Ultra 600W", price: 4500, img: "https://images.unsplash.com/photo-1592813630411-68cf16ff49fc?auto=format&fit=crop&w=800&q=80" },
+    { name: "EcoLite 300W", price: 1950, img: "https://images.unsplash.com/photo-1603791452906-c4c7b1de1b37?auto=format&fit=crop&w=800&q=80" },
+    { name: "SunPro AI Hybrid 800W", price: 6500, img: "https://images.unsplash.com/photo-1608330903957-8a09a0d6d3b2?auto=format&fit=crop&w=800&q=80" },
+    { name: "Solar Power Lantern", price: 350, img: "https://images.unsplash.com/photo-1602524817949-321f49f7c51d?auto=format&fit=crop&w=800&q=80" },
+    { name: "Solar Home Kit", price: 2200, img: "https://images.unsplash.com/photo-1622641682048-19c8700b1e24?auto=format&fit=crop&w=800&q=80" },
+    { name: "Solar Street Light", price: 3100, img: "https://images.unsplash.com/photo-1620121692029-d088224ddc74?auto=format&fit=crop&w=800&q=80" }
   ];
 
-  // DOM refs
-  const productList = document.getElementById('productList');
-  const searchInput = document.getElementById('searchInput');
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const cartBtn = document.getElementById('cartBtn');
-  const cartCount = document.getElementById('cartCount');
-  const cartPanel = document.getElementById('cart');
-  const cartItems = document.getElementById('cartItems');
-  const cartTotalEl = document.getElementById('cartTotal');
-  const clearCartBtn = document.getElementById('clearCartBtn');
-  const checkoutBtn = document.getElementById('checkoutBtn');
-  const checkoutModal = document.getElementById('checkoutModal');
-  const closeCheckout = document.getElementById('closeCheckout');
-  const menuToggle = document.getElementById('menuToggle');
-  const navLinks = document.getElementById('nav-links');
+  // --- Display Products ---
+  const productList = document.getElementById("productList");
+  products.forEach((p, i) => {
+    productList.innerHTML += `
+      <div class="product-card">
+        <img src="${p.img}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p class="price">₵ ${p.price}</p>
+        <button class="btn" onclick="addToCart(${i})">Add to Cart</button>
+      </div>`;
+  });
 
-  let activeCategory = 'all';
-  let cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  // --- Cart Functionality ---
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartBtn = document.getElementById("cartBtn");
+  const cartPanel = document.getElementById("cart");
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const checkoutModal = document.getElementById("checkoutModal");
+  const closeCheckout = document.getElementById("closeCheckout");
 
-  // Utility: format currency
-  function fmt(v){ return '₵ ' + v.toString(); }
-
-  // Render products
-  function renderProducts(list) {
-    productList.innerHTML = '';
-    list.forEach((p) => {
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <img src="${p.img}" alt="${p.name}" loading="lazy">
-        <div class="card-body">
-          <h4>${p.name}</h4>
-          <span class="price">${fmt(p.price)}</span>
-          <button class="btn" data-add="${p.id}">Add to Cart</button>
-        </div>`;
-      productList.appendChild(card);
-    });
+  function addToCart(index) {
+    cart.push(products[index]);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
   }
 
-  function filterProducts(cat){
-    activeCategory = cat;
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-    const activeBtn = Array.from(filterBtns).find(b=>b.dataset.cat===cat) || document.querySelector('.filter-btn[data-cat="all"]');
-    if(activeBtn) activeBtn.classList.add('active');
-    const filtered = cat==='all'? products : products.filter(p=>p.category===cat);
-    renderProducts(filtered);
+  function removeFromCart(i) {
+    cart.splice(i, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
   }
 
-  // Search + filter combined
-  function searchAndFilter(){
-    const q = (searchInput.value||'').trim().toLowerCase();
-    let list = products.filter(p => (activeCategory==='all' || p.category===activeCategory));
-    if(q) list = list.filter(p => p.name.toLowerCase().includes(q));
-    renderProducts(list);
+  function clearCart() {
+    cart = [];
+    localStorage.removeItem("cart");
+    updateCart();
   }
 
-  // Cart functions
-  function saveCart(){ localStorage.setItem('cart', JSON.stringify(cart)); updateCartUI(); }
-  function updateCartUI(){
-    cartItems.innerHTML='';
+  function updateCart() {
+    cartItems.innerHTML = "";
     let total = 0;
-    cart.forEach((it,idx)=>{
-      total += it.price;
-      const div = document.createElement('div'); div.className='cart-item';
-      div.innerHTML = `<span>${it.name}</span><span>₵${it.price}</span><button class="btn btn-danger" data-remove="${idx}">Remove</button>`;
-      cartItems.appendChild(div);
+    cart.forEach((item, i) => {
+      total += item.price;
+      cartItems.innerHTML += `
+        <div class="cart-item">
+          <span>${item.name}</span>
+          <span>₵${item.price}</span>
+          <button class="btn" style="padding:5px 10px;font-size:12px;background:red" onclick="removeFromCart(${i})">Remove</button>
+        </div>`;
     });
-    cartTotalEl.textContent = fmt(total);
-    const cnt = cart.length;
-    if(cnt>0){ cartCount.hidden = false; cartCount.textContent = cnt; } else { cartCount.hidden = true; }
+    cartItems.innerHTML += `<button class="btn" style="background:#444;width:100%" onclick="clearCart()">Clear Cart</button>`;
+    cartTotal.textContent = `₵ ${total}`;
   }
-  function addToCartById(id){
-    const p = products.find(x=>x.id===id);
-    if(p){ cart.push(p); saveCart(); alert(p.name + ' added to cart'); }
-  }
-  function removeFromCart(index){ cart.splice(index,1); saveCart(); }
+  updateCart();
 
-  // Init rendering
-  renderProducts(products);
-  updateCartUI();
+  cartBtn.onclick = () => {
+    cartPanel.style.display = cartPanel.style.display === "block" ? "none" : "block";
+  };
+  checkoutBtn.onclick = () => checkoutModal.style.display = "flex";
+  closeCheckout.onclick = () => checkoutModal.style.display = "none";
 
-  // Event delegation for product add buttons
-  productList.addEventListener('click', (e)=>{
-    const btn = e.target.closest('button[data-add]');
-    if(!btn) return;
-    const id = Number(btn.dataset.add);
-    addToCartById(id);
-  });
+  // --- Login/Signup ---
+  const loginBtn = document.getElementById("loginBtn");
+  const signupBtn = document.getElementById("signupBtn");
+  const loginModal = document.getElementById("loginModal");
+  const signupModal = document.getElementById("signupModal");
+  const closeLogin = document.getElementById("closeLogin");
+  const closeSignup = document.getElementById("closeSignup");
 
-  // Remove from cart
-  cartItems.addEventListener('click', (e)=>{
-    const btn = e.target.closest('button[data-remove]');
-    if(!btn) return;
-    const idx = Number(btn.dataset.remove);
-    removeFromCart(idx);
-  });
+  // --- Modal Controls ---
+  loginBtn.onclick = () => loginModal.style.display = "flex";
+  signupBtn.onclick = () => signupModal.style.display = "flex";
+  closeLogin.onclick = () => loginModal.style.display = "none";
+  closeSignup.onclick = () => signupModal.style.display = "none";
 
-  // Filters
-  filterBtns.forEach(b=>{
-    b.addEventListener('click', ()=> filterProducts(b.dataset.cat));
-  });
+  // --- Save Signup Data ---
+  document.querySelector("#signupModal .btn").addEventListener("click", function() {
+    const name = signupModal.querySelector('input[placeholder="Full Name"]').value.trim();
+    const email = signupModal.querySelector('input[placeholder="Email"]').value.trim();
+    const password = signupModal.querySelector('input[placeholder="Password"]').value.trim();
 
-  // Search input
-  searchInput.addEventListener('input', searchAndFilter);
-
-  // Cart toggle (touch/click friendly)
-  cartBtn.addEventListener('click', ()=>{
-    if(cartPanel.style.display === 'block'){ cartPanel.style.display = 'none'; cartPanel.setAttribute('aria-hidden','true'); }
-    else { cartPanel.style.display = 'block'; cartPanel.setAttribute('aria-hidden','false'); }
-  });
-
-  // clear cart
-  clearCartBtn.addEventListener('click', ()=>{
-    if(!cart.length) return alert('Cart is already empty');
-    if(confirm('Clear all items from cart?')){ cart = []; saveCart(); }
-  });
-
-  // Checkout
-  checkoutBtn.addEventListener('click', ()=>{ checkoutModal.style.display='flex'; checkoutModal.setAttribute('aria-hidden','false'); });
-  closeCheckout.addEventListener('click', ()=>{ checkoutModal.style.display='none'; checkoutModal.setAttribute('aria-hidden','true'); });
-  document.getElementById('confirmPay').addEventListener('click', ()=>{
-    const momo = document.getElementById('momo').value.trim();
-    if(!momo){ alert('Enter MoMo number'); return; }
-    alert('Payment simulated. Thank you!');
-    cart = []; saveCart(); checkoutModal.style.display='none';
-  });
-
-  // Menu toggle for smaller screens
-  menuToggle.addEventListener('click', ()=>{
-    navLinks.classList.toggle('open');
-  });
-
-  // Mobile-friendly nav close on link click
-  navLinks.addEventListener('click', (e)=>{
-    if(e.target.tagName === 'A') navLinks.classList.remove('open');
-  });
-
-  // Contact form submission (simple local behavior)
-  const contactForm = document.getElementById('contactForm');
-  contactForm && contactForm.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    alert('Thanks! Message received.');
-    contactForm.reset();
-  });
-
-  // Authentication UI in header
-  function refreshAuthUI(){
-    const currentUser = JSON.parse(localStorage.getItem('currentUser')||'null');
-    const loginLink = document.getElementById('loginLink');
-    const signupLink = document.getElementById('signupLink');
-    if(currentUser){
-      if(loginLink) loginLink.textContent = currentUser.name;
-      if(signupLink) signupLink.remove();
-      // clicking name goes to account.html
-      if(loginLink) loginLink.setAttribute('href','account.html');
-    } else {
-      if(loginLink) loginLink.textContent = 'Login';
-      if(signupLink && signupLink.tagName!=='A'){} // keep existing
+    if (!name || !email || !password) {
+      alert("Please fill all fields!");
+      return;
     }
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const exists = users.find(u => u.email === email);
+    if (exists) {
+      alert("User already exists! Please log in.");
+      signupModal.style.display = "none";
+      return;
+    }
+
+    users.push({ name, email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Signup successful! You can now log in.");
+    signupModal.style.display = "none";
+  });
+
+  // --- Login Function ---
+  document.querySelector("#loginModal .btn").addEventListener("click", function() {
+    const email = loginModal.querySelector('input[placeholder="Username"]').value.trim();
+    const password = loginModal.querySelector('input[placeholder="Password"]').value.trim();
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(u => (u.email === email || u.name === email) && u.password === password);
+
+    if (user) {
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      alert(`Welcome, ${user.name}!`);
+      loginModal.style.display = "none";
+      showUserGreeting(user.name);
+    } else {
+      alert("Invalid credentials! Try again.");
+    }
+  });
+
+  // --- Show Greeting ---
+  function showUserGreeting(name) {
+    const navLinks = document.getElementById("nav-links");
+    const userHTML = `
+      <li><a href="#">👋 ${name}</a></li>
+      <li><a href="#" id="logoutBtn">Logout</a></li>
+    `;
+    navLinks.innerHTML = `
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" id="cartBtn">🛒 Cart</a></li>
+      ${userHTML}
+    `;
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("currentUser");
+      alert("Logged out successfully.");
+      location.reload();
+    });
   }
-  refreshAuthUI();
 
-  // Auto-restore cart from storage on load (already applied above)
-  // ensure UI updates
-  updateCartUI();
+  // --- Auto-login if user already logged in ---
+  const loggedUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (loggedUser) showUserGreeting(loggedUser.name);
 
-})();
+  // --- Close Modals when tapping outside ---
+  window.onclick = (e) => {
+    [loginModal, signupModal, checkoutModal].forEach(modal => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+  };
+</script>

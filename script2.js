@@ -8,63 +8,63 @@
       name: "AI Solar Max 400W Panel", 
       price: 2800, 
       category: "panels", 
-      img: "https://picsum.photos/id/10/800/600" 
+      img: "fig.6.jpg" 
     },
     { 
       id: 2, 
       name: "SmartPanel Ultra 600W", 
       price: 4500, 
       category: "panels", 
-      img: "https://picsum.photos/id/11/800/600" 
+      img: "fig.7.jpg" 
     },
     { 
       id: 3, 
       name: "EcoLite 300W Compact", 
       price: 1950, 
       category: "panels", 
-      img: "https://picsum.photos/id/12/800/600" 
+      img: "fig.8.jpg" 
     },
     { 
       id: 4, 
       name: "Solar Lantern 50W", 
       price: 320, 
       category: "lamps", 
-      img: "https://picsum.photos/id/13/800/600" 
+      img: "fig.9.jpg" 
     },
     { 
       id: 5, 
       name: "Solar Flood Light 200W", 
       price: 780, 
       category: "lamps", 
-      img: "https://picsum.photos/id/14/800/600" 
+      img: "fig10.jpg" 
     },
     { 
       id: 6, 
       name: "Deep Cycle Battery 12V/200Ah", 
       price: 1500, 
       category: "batteries", 
-      img: "https://picsum.photos/id/15/800/600" 
+      img: "fig.11.jpg" 
     },
     { 
       id: 7, 
       name: "Solar Charge Controller 60A", 
       price: 620, 
       category: "accessories", 
-      img: "https://picsum.photos/id/16/800/600" 
+      img: "fig.12.jpg"
     },
     { 
       id: 8, 
       name: "Inverter Pro 2.5kVA", 
       price: 2500, 
       category: "accessories", 
-      img: "https://picsum.photos/id/17/800/600" 
+      img: "fig.13.jpg" 
     },
     { 
       id: 9, 
       name: "Complete Solar Home Kit", 
       price: 8900, 
       category: "panels", 
-      img: "https://picsum.photos/id/18/800/600" 
+      img: "fig.12.jpg" 
     }
   ];
 
